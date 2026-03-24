@@ -7,8 +7,11 @@ function NewCollection(){
                 <h1 className="text-2xl text-center font-bold sm:text-start sm:flex sm:flex-col sm:text-4xl lg:text-6xl"><span> Redefine Your</span> <span className="sm:text-lightblue"> Everyday Style </span></h1>
                 <p className="text-center sm:text-start lg:text-lg">Discover out curated collection of premium essentials designed for the modern lifestyle</p>
                 <div className="flex flex-col gap-2 w-full sm:flex-row">
-                    <button className="bg-lightblue p-2 rounded-lg cursor-pointer">Shop Collection</button>
-                    <button className="bg-dark/80 p-2 rounded-lg cursor-pointer">View Lookbook</button>
+                    <button className="bg-lightblue p-2 rounded-lg cursor-pointer hover:bg-lightblue/80">Shop Collection</button>
+                    <button className="bg-dark/50 border border-background/50 p-2 rounded-lg cursor-pointer hover:bg-dark hover:border-background">
+                        <p className="sm:hidden">View Lookbook</p>
+                        <p className="hidden sm:block">View Deals</p>
+                    </button>
                 </div>
             </div>
         </section>
