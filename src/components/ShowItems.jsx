@@ -1,5 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import LoadingSpinner from "./LoadingSpinner"
+import ErrorWindow from "./ErrorWindow"
 
 
 function ShowItems (){
@@ -7,23 +9,31 @@ function ShowItems (){
     // to get the api
 
     const [products, setProducts] = useState([])
-    const [error, setError] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null) 
+    const [limit, setLimit] = useState(4)
+    const [changeFlex, setChangeFlex] = useState(true) 
+    const [changeHidden, setChangeHidden] = useState(true) 
+    const [loading, setLoading] = useState(true) 
 
     useEffect(()=> {
         async function getProducts() {
             try {
+                setLoading(true)
                 const {data} = await axios.get("https://fakestoreapi.com/products")
                 setProducts(data)
             } catch (error){
                 console.error("Something went wrong: ", error)
+                setErrorMessage(`${error}`)
+            }
+            finally {
+                setLoading(false)
             }
         }
         getProducts()
-    })
+    }, [])
 
     // show 4 items for mobile and 8 for higher screens and click the option to show all
 
-    const [limit, setLimit] = useState(4);
 
     useEffect(() => {
         const mobile = window.innerWidth < 640;
@@ -37,18 +47,32 @@ function ShowItems (){
 
     // hide load more button
 
-    const [changeFlex, setChangeFlex] = useState(true)
-
     function changeFlexToggle(){
         setChangeFlex(!changeFlex)
     }
     
     // hide see all
-    const [changeHidden, setChangeHidden] = useState(true)
 
     function changeHiddenToggle(){
         setChangeHidden(!changeHidden)
     }
+
+    // error message
+
+    if (errorMessage) {
+        return<ErrorWindow 
+        errorM={errorMessage}
+        />
+    }
+
+    //loading spinner
+
+    if (loading) {
+        return(
+            <LoadingSpinner/>
+        )
+    }
+
 
     return(
         <section>
