@@ -1,4 +1,55 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+
+
 function ShowItems (){
+
+    // to get the api
+
+    const [products, setProducts] = useState([])
+    const [error, setError] = useState(null)
+
+    useEffect(()=> {
+        async function getProducts() {
+            try {
+                const {data} = await axios.get("https://fakestoreapi.com/products")
+                setProducts(data)
+            } catch (error){
+                console.error("Something went wrong: ", error)
+            }
+        }
+        getProducts()
+    })
+
+    // show 4 items for mobile and 8 for higher screens and click the option to show all
+
+    const [limit, setLimit] = useState(4);
+
+    useEffect(() => {
+        const mobile = window.innerWidth < 640;
+        setLimit(mobile ? 4 : 8)
+    }, [])
+
+    const visibleProducts = products.slice(0, limit)
+
+    const showAll = () => setLimit(products.length)
+
+
+    // hide load more button
+
+    const [changeFlex, setChangeFlex] = useState(true)
+
+    function changeFlexToggle(){
+        setChangeFlex(!changeFlex)
+    }
+    
+    // hide see all
+    const [changeHidden, setChangeHidden] = useState(true)
+
+    function changeHiddenToggle(){
+        setChangeHidden(!changeHidden)
+    }
+
     return(
         <section>
             <div className="flex justify-between items-center p-5">
@@ -8,7 +59,7 @@ function ShowItems (){
                     <p className="hidden sm:block text-sm text-dark/80">Our most popular items this week</p>
                 </div>
                 <div className="flex justify-center items-center gap-2">
-                    <button className="text-lightblue sm:hidden font-bold flex justify-center items-center">See All <span className="text-3xl relative -top-0.5">→</span></button>
+                    <button className={`${changeHidden ? `` : `hidden`} text-lightblue sm:hidden font-bold flex justify-center items-center cursor-pointer hover:text-lightblue/80`} onClick={() => {showAll(); changeHiddenToggle()}}>See All <span className="text-3xl relative -top-0.5">→</span></button>
                     <img src="./icons/sort.png" alt="sort icon"  loading="lazy" className="w-8.5 p-1 hidden sm:block border border-grey rounded-md"/>
                     <label className="hidden sm:block p-1 border border-grey rounded-md text-dark/80">Sort by:
                         <select name="sort" className="outline-none">
@@ -19,111 +70,33 @@ function ShowItems (){
                 </div>
             </div>
             <div className="p-5 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md relative">
-                    <div className="w-11 absolute bg-white p-2 rounded-full flex items-center justify-center right-5 hover:bg-red-100">
-                        <img src="./icons/heart.png" alt="heart icon" className=""/>
+                {visibleProducts.map((product)=>(
+                    <article className="bg-white p-5 rounded-lg flex flex-col shadow-md relative hover:ring-2 hover:ring-[#cccccc]" key={product.id}>
+                    <div className="w-11 absolute bg-white p-2 rounded-full flex items-center justify-center right-5 hover:bg-black/10">
+                        <img src="./icons/heart.png" alt="heart icon" />
                         <img src="./icons/redheart.png" alt="red heart icon" className="hidden"/>
                     </div>
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
+                    <div className="overflow-hidden mb-10">
+                        <img src={product.image} alt="img" className="aspect-square"/>
                     </div>
-                    <button className="bg-dark p-1 rounded-lg w-full hover:bg-dark/90">
+                    <p className="text-dark/70 sm:text-lightblue text-xs font-bold uppercase">{product.category}</p>
+                    <div className="grow">
+                        <p className="font-bold text-sm">{product.title}</p>
+                    </div>
+                    <div className="flex justify-between my-5">
+                        <p className="font-bold text-lg text-lightblue sm:text-dark">${product.price}</p>
+                        <p>⭐<span className="text-dark/70 font-bold">{product.rating.rate}</span></p>
+                    </div>
+                    <button className="bg-dark p-1 rounded-lg w-full hover:bg-dark/90 cursor-pointer">
                         <p className="text-lg text-background">🛒 Add to Cart</p>
                     </button>
                 </article>
+                ))}
+                
                 {/*####################################################*/}
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md">
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
-                    </div>
-                    <button className="bg-dark p-1 rounded-lg w-full">
-                        <p className="text-lg text-background">🛒 Add to Cart</p>
-                    </button>
-                </article>
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md">
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
-                    </div>
-                    <button className="bg-dark p-1 rounded-lg w-full">
-                        <p className="text-lg text-background">🛒 Add to Cart</p>
-                    </button>
-                </article>
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md">
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
-                    </div>
-                    <button className="bg-dark p-1 rounded-lg w-full">
-                        <p className="text-lg text-background">🛒 Add to Cart</p>
-                    </button>
-                </article>
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md">
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
-                    </div>
-                    <button className="bg-dark p-1 rounded-lg w-full">
-                        <p className="text-lg text-background">🛒 Add to Cart</p>
-                    </button>
-                </article>
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md">
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
-                    </div>
-                    <button className="bg-dark p-1 rounded-lg w-full">
-                        <p className="text-lg text-background">🛒 Add to Cart</p>
-                    </button>
-                </article>
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md">
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
-                    </div>
-                    <button className="bg-dark p-1 rounded-lg w-full">
-                        <p className="text-lg text-background">🛒 Add to Cart</p>
-                    </button>
-                </article>
-                <article className="bg-white p-5 rounded-lg flex flex-col shadow-md">
-                    <img src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png" alt="img" className="mb-10"/>
-                    <p className="text-lightblue text-xs font-bold">MEN'S CLOTHING</p>
-                    <p className="font-bold text-sm">Fjallraven-Foldsack No. 1 Backpack</p>
-                    <div className="flex justify-between my-5">
-                        <p className="font-bold text-lg">$109.95</p>
-                        <p>⭐<span className="text-dark/70 font-bold">4.5</span></p>
-                    </div>
-                    <button className="bg-dark p-1 rounded-lg w-full">
-                        <p className="text-lg text-background">🛒 Add to Cart</p>
-                    </button>
-                </article>
-                {/*##################*/}
             </div>
-            <div className="sm:flex flex-col items-center justify-center mt-10 mb-20 hidden">
-                <button className="border m-5 border-dark/50 p-2 font-bold rounded-lg bg-white hover:bg-dark hover:text-background">Load More Products
+            <div className={`${changeFlex ? `sm:flex`: ``} flex-col items-center justify-center mt-10 mb-20 hidden`}>
+                <button className="border m-5 border-dark/50 p-2 font-bold rounded-lg bg-white hover:bg-dark hover:text-background" onClick={ ()=> {showAll(); changeFlexToggle()}}>Load More Products
                 </button>
                 <p className="text-dark/75">Showing <span>8</span> of 20 products</p>
             </div>
