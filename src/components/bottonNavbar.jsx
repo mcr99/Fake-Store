@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 function BottonNavbar () {
     return(
-        <nav className="flex justify-evenly items-center bg-white border-t border-t-grey/50 py-3 sm:hidden sticky bottom-0">
+        <nav className="flex justify-evenly items-center bg-white border-t border-t-grey/50 py-3 sm:hidden sticky -bottom-1">
             <Link to="/" className="w-16 flex flex-col items-center justify-center py-2 px-5 gap-1 hover:bg-dark/20 hover:rounded-2xl">
             <img src="./icons/home.png" alt="Home icon" />
             <p className="text-xs text-center">HOME</p>

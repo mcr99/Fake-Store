@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import LoadingSpinner from "./LoadingSpinner"
 import ErrorWindow from "./ErrorWindow"
+import { Link } from "react-router-dom"
 
 
 function ShowItems (){
@@ -10,7 +11,7 @@ function ShowItems (){
 
     const [products, setProducts] = useState([])
     const [errorMessage, setErrorMessage] = useState(null) 
-    const [limit, setLimit] = useState(4)
+    const [limit, setLimit] = useState(0)
     const [changeFlex, setChangeFlex] = useState(true) 
     const [changeHidden, setChangeHidden] = useState(true) 
     const [loading, setLoading] = useState(true) 
@@ -95,13 +96,13 @@ function ShowItems (){
             </div>
             <div className="p-5 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
                 {visibleProducts.map((product)=>(
-                    <article className="bg-white p-5 rounded-lg flex flex-col shadow-md relative hover:ring-2 hover:ring-[#cccccc]" key={product.id}>
+                    <Link to={`/products/${product.id}`} className="bg-white p-5 rounded-lg flex flex-col shadow-md relative hover:ring-2 hover:ring-[#cccccc]" key={product.id}>
                     <div className="w-11 absolute bg-white p-2 rounded-full flex items-center justify-center right-5 hover:bg-black/10">
-                        <img src="./icons/heart.png" alt="heart icon" />
-                        <img src="./icons/redheart.png" alt="red heart icon" className="hidden"/>
+                        <img src="./icons/heart.png" alt="heart icon" loading="lazy"/>
+                        <img src="./icons/redheart.png" alt="red heart icon" className="hidden" loading="lazy"/>
                     </div>
                     <div className="overflow-hidden mb-10">
-                        <img src={product.image} alt="img" className="aspect-square"/>
+                        <img src={product.image} alt={product.title} className="aspect-square" loading="lazy" />
                     </div>
                     <p className="text-dark/70 sm:text-lightblue text-xs font-bold uppercase">{product.category}</p>
                     <div className="grow">
@@ -114,7 +115,7 @@ function ShowItems (){
                     <button className="bg-dark p-1 rounded-lg w-full hover:bg-dark/90 cursor-pointer">
                         <p className="text-lg text-background">🛒 Add to Cart</p>
                     </button>
-                </article>
+                </Link>
                 ))}
                 
                 {/*####################################################*/}
@@ -129,25 +130,25 @@ function ShowItems (){
                 <div className="flex justify-between items-center relative text-sm">
                     <div className="flex justify-center">
                         <div className="rounded-full p-2 bg-white shadow-sm">
-                            <img src="./icons/clothes-hanger.png" alt="Women" className="w-10 "/>
+                            <img src="./icons/clothes-hanger.png" alt="Women" className="w-10 " loading="lazy"/>
                         </div>
                         <p className="font-bold absolute top-15">Women</p>
                     </div>
                     <div className="flex justify-center">
                         <div className="rounded-full p-2 bg-white shadow-sm">
-                            <img src="./icons/man.png" alt="Men" className="w-10"/>
+                            <img src="./icons/man.png" alt="Men" className="w-10" loading="lazy"/>
                         </div>
                         <p className="font-bold absolute top-15">Men</p>
                     </div>
                     <div className="flex justify-center">
                         <div className="rounded-full p-3 bg-white shadow-sm ">
-                            <img src="./icons/electronics.png" alt="Electronics" className="w-9"/>
+                            <img src="./icons/electronics.png" alt="Electronics" className="w-9" loading="lazy"/>
                         </div>
                         <p className="font-bold absolute top-15">Electronics</p>
                     </div>
                     <div className="flex justify-center">
                         <div className="rounded-full p-2 bg-white shadow-sm">
-                            <img src="./icons/jewelery.png" alt="Jewelery" className="w-10"/>
+                            <img src="./icons/jewelery.png" alt="Jewelery" className="w-10" loading="lazy"/>
                         </div>
                         <p className="font-bold absolute top-15">Jewelery</p>
                     </div>
