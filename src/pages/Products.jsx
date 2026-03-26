@@ -42,9 +42,9 @@ function Products () {
         <main className="mt-10 lg:mt-20 xl:mx-[5%] 2xl:mx-[10%] p-5">
             <div className="flex justify-between my-10">
                 <Link to="/" className="bg-lightblue px-2 py-1 rounded-lg hover:bg-lightblue/80 text-lg text-background font-bold">Go back</Link>
-                <button className="bg-lightblue px-2 py-1 rounded-lg hover:bg-lightblue/80 cursor-pointer">
+                <Link to="/coming-soon" className="bg-lightblue px-2 py-1 rounded-lg hover:bg-lightblue/80 cursor-pointer">
                     <p className="text-lg text-background font-bold"> Add to Cart</p>
-                </button>
+                </Link>
             </div>
             <section className="grid grid-cols-1 sm:grid-cols-2 justify-center items-center gap-20">
                 <div className="flex justify-center items-center">
