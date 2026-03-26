@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+
 
 function Footer (){
+
+    const navigate = useNavigate()
+
+    const handledCategory = (category) => {
+        navigate(`/?category=${category}`)
+    }
+
     return(
         <footer className="p-5 bg-white ">
             <section className="gap-5 my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:mx-[5%] 2xl:mx-[10%]">
@@ -23,16 +31,16 @@ function Footer (){
                     <p className="font-bold px-2 my-3">CATEGORIES</p>
                     <ul className="flex flex-col gap-1">
                         <li> 
-                            <Link to="/electronics" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Electronics</Link>
+                            <button className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70 cursor-pointer" onClick={() => handledCategory("electronics")}>Electronics</button>
                         </li>
                         <li> 
-                            <Link to="/jewelry" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Jewelry</Link>
+                            <button className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70 cursor-pointer"  onClick={() => handledCategory("jewelery")}>Jewelry</button>
                         </li>
                         <li> 
-                            <Link to="/men" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Men's Fashion</Link>
+                            <button className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70 cursor-pointer" onClick={() => handledCategory("men's clothing")}>Men's Fashion</button>
                         </li>
                         <li> 
-                            <Link to="/women" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Women's Fashion</Link>
+                            <button className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70 cursor-pointer" onClick={() => handledCategory("women's clothing")}>Women's Fashion</button>
                         </li>
                     </ul>
                 </article>
@@ -40,16 +48,16 @@ function Footer (){
                     <p className="font-bold px-2 my-3">SUPPORT</p>
                     <ul className="flex flex-col gap-1">
                         <li>
-                            <Link to="" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Help Center</Link>
+                            <Link to="/coming-soon" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Help Center</Link>
                         </li>
                         <li>
-                            <Link to="" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Shipping Policy</Link>
+                            <Link to="/coming-soon" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Shipping Policy</Link>
                         </li>
                         <li>
-                            <Link to="" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Returns & Refunds</Link>
+                            <Link to="/coming-soon" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Returns & Refunds</Link>
                         </li>
                         <li>
-                            <Link to="" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Order Tracking</Link>
+                            <Link to="/coming-soon" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Order Tracking</Link>
                         </li>
                     </ul>
                 </article>
@@ -65,9 +73,9 @@ function Footer (){
             <section className="flex flex-col sm:flex-row justify-between border-t border-grey p-5 gap-5 xl:mx-[5%] 2xl:mx-[10%]">
                     <p className="text-center text-dark/70">© 2024 Luxe Store. Powered by <a href="https://fakestoreapi.com/" target="_blank">FakeStore API.</a></p>
                     <div className="flex gap-5 text-dark/70">
-                        <Link>Terms of Service</Link>
-                        <Link>Privacy Policy</Link>
-                        <Link>Cookies</Link>
+                        <Link to="/coming-soon" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Terms of Service</Link>
+                        <Link to="/coming-soon" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Privacy Policy</Link>
+                        <Link to="/coming-soon" className="hover:bg-dark hover:text-background py-1 px-2 rounded-2xl text-dark/70">Cookies</Link>
                     </div>
             </section>
         </footer>
